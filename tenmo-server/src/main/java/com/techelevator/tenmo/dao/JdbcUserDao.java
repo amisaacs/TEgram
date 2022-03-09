@@ -82,11 +82,15 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public BigDecimal getBalance(String userName) {
+        BigDecimal balance = null;
         String sql = "SELECT balance FROM account " +
                 "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
                 "WHERE tenmo_user.username = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userName);
-        return (BigDecimal) result;
+        if(result.next()){
+            balance = result.getBigDecimal("balance");
+        }
+        return balance;
     }
 
 

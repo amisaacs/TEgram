@@ -86,7 +86,8 @@ public class App {
 
 	private void viewCurrentBalance() {
 		// TODO Auto-generated method stub
-		
+
+        System.out.printf("Your current account balance is: $%d", 1000);
 	}
 
 	private void viewTransferHistory() {
