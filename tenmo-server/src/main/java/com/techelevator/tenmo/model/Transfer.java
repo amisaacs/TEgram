@@ -9,7 +9,7 @@ public class Transfer {
     @NotBlank (message = "Transfer type cannot be blank.")
     private Long transferTypeId;
     @NotBlank (message = "Transfer status cannot be blank.")
-    private Long transerStatusId = 2L;
+    private Long transferStatusId = 2L;
     @NotBlank (message = "Sender cannot be blank.")
     private Long accountFrom;
     @NotBlank (message = "Recipient cannot be blank.")
@@ -17,12 +17,12 @@ public class Transfer {
     @Positive (message = "Zero or negative amount not accepted.")
     private BigDecimal amount;
 
-    public Transfer(Long id, Long transferTypeId, Long transerStatusId,
+    public Transfer(Long id, Long transferTypeId, Long transferStatusId,
                     Long accountFrom, Long accountTo, BigDecimal amount) {
 
         this.id = id;
         this.transferTypeId = transferTypeId;
-        this.transerStatusId = transerStatusId;
+        this.transferStatusId = transferStatusId;
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.amount = amount;
@@ -44,12 +44,12 @@ public class Transfer {
         this.transferTypeId = transferTypeId;
     }
 
-    public Long getTranserStatusId() {
-        return transerStatusId;
+    public Long getTransferStatusId() {
+        return transferStatusId;
     }
 
-    public void setTranserStatusId(Long transerStatusId) {
-        this.transerStatusId = transerStatusId;
+    public void setTransferStatusId(Long transferStatusId) {
+        this.transferStatusId = transferStatusId;
     }
 
     public Long getAccountFrom() {
@@ -81,7 +81,7 @@ public class Transfer {
         return "Transfer{" +
                 "id=" + id +
                 ", transferTypeId=" + transferTypeId +
-                ", transerStatusId=" + transerStatusId +
+                ", transferStatusId=" + transferStatusId +
                 ", accountFrom=" + accountFrom +
                 ", accountTo=" + accountTo +
                 ", amount=" + amount +

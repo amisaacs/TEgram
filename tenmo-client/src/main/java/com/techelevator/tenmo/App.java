@@ -4,6 +4,7 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.TenmoService;
 
 public class App {
 
@@ -13,6 +14,7 @@ public class App {
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
 
     private AuthenticatedUser currentUser;
+    private TenmoService tenmoService = new TenmoService(API_BASE_URL);
 
     public static void main(String[] args) {
         App app = new App();
@@ -86,8 +88,10 @@ public class App {
 
 	private void viewCurrentBalance() {
 		// TODO Auto-generated method stub
+        // get token out of auth user and pass thru get balance
 
-        System.out.printf("Your current account balance is: $%d", 1000);
+//        System.out.printf("Your current account balance is: $%d", tenmoService.getBalance(currentUser.getToken()));
+        System.out.println("Your current account balance is: $ " + tenmoService.getBalance(currentUser.getToken()));
 	}
 
 	private void viewTransferHistory() {
