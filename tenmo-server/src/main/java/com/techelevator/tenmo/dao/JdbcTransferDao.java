@@ -13,6 +13,9 @@ import java.util.List;
 @Component
 public class JdbcTransferDao implements TransferDao {
     private JdbcTemplate jdbcTemplate;
+    private static final long TRANSFER_STATUS_PENDING = 1L;
+    private static final long TRANSFER_STATUS_APPROVED = 2L;
+    private static final long TRANSFER_STATUS_REJECTED = 3L;
     public JdbcTransferDao(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate =  jdbcTemplate;
 
@@ -20,21 +23,33 @@ public class JdbcTransferDao implements TransferDao {
 
 // need to make sure it's auth user
 
-    public boolean makeTransfer(Transfer transfer, Long senderId, Long recipientId){
-        boolean isSuccess = false;
-        return null;
+    public void makeTransfer (Transfer transfer, BigDecimal senderBalance){
+
+        Long status = TRANSFER_STATUS_PENDING;
+        try{
+            if (updateAccount(transfer, senderBalance)){
+                status = TRANSFER_STATUS_APPROVED;
+            }else{
+                status = TRANSFER_STATUS_REJECTED;
+            }
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }finally {
+            transfer.setTransferStatusId(status);
+            createTransfer(transfer);
+        }
     }
+
 
     @Override
     public boolean updateAccount(Transfer transfer, BigDecimal senderBalance) {
         boolean isSuccess = false;
         //        should be able to choose from a list of users to send TE Bucks to.
-        String sql = "BEGIN TRANSACTION; " +
-                " UPDATE account SET balance = balance - ? " +
+        String sql =  " UPDATE account SET balance = balance - ? " +
                 " WHERE user_id = ?" +
                 " UPDATE account SET balance = balance + ? " +
-                " WHERE user_id = ? " +
-                " COMMIT;";
+                " WHERE user_id = ? ";
 
         // checking sender cannot transfer to themselves, transfer amount >0, transfer amount<= senderBalance
         if (transfer.getAccountFrom() != transfer.getAccountTo()
