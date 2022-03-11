@@ -28,6 +28,10 @@ public class Transfer {
         this.amount = amount;
     }
 
+    public Transfer() {
+
+    }
+
     public Long getId() {
         return id;
     }

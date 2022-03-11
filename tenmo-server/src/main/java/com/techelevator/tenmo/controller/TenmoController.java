@@ -23,10 +23,13 @@ public class TenmoController {
     private TransferDao transferDao;
 
     // we need to put transferDAO in constructor
-    public TenmoController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, UserDao userDao){
+    public TenmoController(TokenProvider tokenProvider,
+                           AuthenticationManagerBuilder authenticationManagerBuilder,
+                           UserDao userDao, TransferDao transferDao){
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userDao = userDao;
+        this.transferDao = transferDao;
     }
 
     @RequestMapping(value = "/balance", method = RequestMethod.GET )
