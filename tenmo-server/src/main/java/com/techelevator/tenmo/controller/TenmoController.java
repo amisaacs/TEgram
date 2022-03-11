@@ -37,9 +37,11 @@ public class TenmoController {
         return userDao.getBalance(user.getName());
     }
 
+
+    // makeTransfer method
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/transfer", method = RequestMethod.PUT)
-    public void makeTransfer(@Valid @RequestBody Transfer transfer, BigDecimal balance){
-        transferDao.makeTransfer(transfer,balance);
+    public boolean updateAccount(@Valid @RequestBody Transfer transfer, BigDecimal balance){
+        transferDao.updateAccount(transfer,balance);
     }
 }
