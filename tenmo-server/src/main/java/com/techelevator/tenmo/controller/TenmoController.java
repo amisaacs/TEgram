@@ -22,6 +22,7 @@ public class TenmoController {
     private UserDao userDao;
     private TransferDao transferDao;
 
+    // we need to put transferDAO in constructor
     public TenmoController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, UserDao userDao){
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
