@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
@@ -9,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TenmoService {
     private final String baseUrl;
@@ -21,7 +24,8 @@ public class TenmoService {
     public BigDecimal getBalance(String authToken){
         BigDecimal balance = null;
         try {
-            ResponseEntity<BigDecimal> response = restTemplate.exchange(baseUrl + "/balance", HttpMethod.GET, createCredentialsEntity(authToken), BigDecimal.class);
+            ResponseEntity<BigDecimal> response = restTemplate.exchange(baseUrl + "/balance", HttpMethod.GET,
+                    createCredentialsEntity(authToken), BigDecimal.class);
         balance = response.getBody();
         } catch (ResourceAccessException | RestClientResponseException e){
             BasicLogger.log(e.getMessage());
@@ -29,6 +33,26 @@ public class TenmoService {
 
         return balance;
     }
+
+    // list users without current user
+    public List<User> listUsers(String authToken){
+        List<User> userList = new ArrayList<>();
+        try{
+//            HttpEntity<> entity = createCredentialsEntity(authToken);
+            ResponseEntity<User> response = restTemplate.exchange(baseUrl + "/user", HttpMethod.GET,
+                    createCredentialsEntity(authToken), User.class );
+            userList = response.getBody();
+        }catch (ResourceAccessException | RestClientResponseException e){
+            BasicLogger.log(e.getMessage());
+        }
+        return userList;
+    }
+    // choose a user to send money to
+    // prompt for amount from sender
+    // create transfer object
+    // create HTTP request to server to make transfer
+
+
 
     private HttpEntity createCredentialsEntity(String authToken) {
         HttpHeaders headers = new HttpHeaders();
