@@ -9,7 +9,7 @@ public class Transfer {
     @NotBlank (message = "Transfer type cannot be blank.")
     private Long transferTypeId;
     @NotBlank (message = "Transfer status cannot be blank.")
-    private Long transferStatusId = 2L;
+    private Long transferStatusId = 2L; // transfer status default is approved
     @NotBlank (message = "Sender cannot be blank.")
     private Long accountFrom;
     @NotBlank (message = "Recipient cannot be blank.")

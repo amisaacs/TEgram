@@ -17,10 +17,10 @@ public class JdbcTransferDao implements TransferDao {
         this.jdbcTemplate =  jdbcTemplate;
 
     }
-// need to make sure it's auth user
 
+// need to make sure it's auth user
     @Override
-    public void makeTransfer(Transfer transfer, BigDecimal balance) {
+    public void updateAccount(Transfer transfer, BigDecimal senderBalance) {
         //        should be able to choose from a list of users to send TE Bucks to.
         String sql = "BEGIN TRANSACTION; " +
                 " UPDATE account SET balance = balance - ? " +
@@ -28,16 +28,18 @@ public class JdbcTransferDao implements TransferDao {
                 " UPDATE account SET balance = balance + ? " +
                 " WHERE user_id = ? " +
                 " COMMIT;";
-        //if (transfer.getAccountFrom() != transfer.getAccountTo() && transfer.getAmount()){
+
+        // checking sender cannot transfer to themselves, transfer amount >0, transfer amount<= senderBalance
+        if (transfer.getAccountFrom() != transfer.getAccountTo()
+                && (transfer.getAmount().compareTo(senderBalance) != 1)
+                && (transfer.getAmount().compareTo(new BigDecimal(0)) == 1)) {
+            jdbcTemplate.update(sql, transfer.getAmount(), transfer.getAccountFrom(),
+                    transfer.getAmount(), transfer.getAccountTo());
 
         }
-        //jdbcTemplate.update(sql, transfer.getAmount(), transfer.getAccountFrom(),
-         //       transfer.getAmount(), transfer.getAccountTo());
+    }
 
 
-//        I can't send more TE Bucks than I have in my account.
-//        I can't send a zero or negative amount.
-//        A Sending Transfer has an initial status of Approved.
 
 
     //insert a new transfer into the transfer table
