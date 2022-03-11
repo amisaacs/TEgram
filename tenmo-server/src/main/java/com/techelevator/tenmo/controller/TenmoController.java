@@ -40,8 +40,8 @@ public class TenmoController {
 
     // makeTransfer method
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/transfer", method = RequestMethod.PUT)
-    public boolean updateAccount(@Valid @RequestBody Transfer transfer, BigDecimal balance){
-        transferDao.updateAccount(transfer,balance);
+    @RequestMapping(value = "/transfer", method = RequestMethod.POST)
+    public void makeTransfer (@Valid @RequestBody Transfer transfer, BigDecimal senderBalance){
+        transferDao.makeTransfer(transfer, senderBalance);
     }
 }
