@@ -35,17 +35,17 @@ public class TenmoService {
     }
 
     // list users without current user
-    public List<User> listUsers(String authToken){
-        List<User> userList = new ArrayList<>();
+    public User[] getUsers(String authToken){
+        User[] users = null;
         try{
 //            HttpEntity<> entity = createCredentialsEntity(authToken);
-            ResponseEntity<User> response = restTemplate.exchange(baseUrl + "/user", HttpMethod.GET,
-                    createCredentialsEntity(authToken), User.class );
-            userList = response.getBody();
+            ResponseEntity<User[]> response = restTemplate.exchange(baseUrl + "/user", HttpMethod.GET,
+                    createCredentialsEntity(authToken), User[].class );
+            users = response.getBody();
         }catch (ResourceAccessException | RestClientResponseException e){
             BasicLogger.log(e.getMessage());
         }
-        return userList;
+        return users;
     }
     // choose a user to send money to
     // prompt for amount from sender
