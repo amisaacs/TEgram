@@ -55,5 +55,14 @@ public class TenmoController {
         return userDao.findAll(principal);
     }
 
-    @
+    //Yay!!!! This works!!!
+    @RequestMapping (value="/listTransfers", method = RequestMethod.GET)
+    public List<Transfer> getTransfers(){
+        return transferDao.getTransfers();
+    }
+
+    @RequestMapping (value="/listTransfers/{userId}", method = RequestMethod.GET)
+    public List<Transfer> getTransferByUserId(@PathVariable long id){
+        return transferDao.getTransferByUserId(id);
+    }
 }

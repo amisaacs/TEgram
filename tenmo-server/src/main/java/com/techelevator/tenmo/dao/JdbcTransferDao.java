@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -87,6 +88,36 @@ public class JdbcTransferDao implements TransferDao {
             transfer = mapRowToTransfer(result);
         }
         return transfer;
+    }
+    @Override
+    public List<Transfer> getTransfers(){
+        List<Transfer> transfers = new ArrayList<>();
+        String sql = "SELECT transfer_id,transfer_type_id,transfer_status_id,account_from," +
+                "account_to,amount " +
+                "FROM transfer ";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
+
+        while(result.next()){
+            Transfer transfer = mapRowToTransfer(result);
+            transfers.add(transfer);
+        }
+        return transfers;
+    }
+
+    @Override
+    public List<Transfer> getTransferByUserId(long id){
+       List<Transfer> transfers = new ArrayList<>();
+       String sql = "SELECT transfer_id,transfer_type_id,transfer_status_id,account_from," +
+               "account_to,amount " +
+               "FROM transfer " +
+               "WHERE account_from = ? OR account_to = ?;";
+       SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id, id);
+
+       while(result.next()){
+           Transfer transfer = mapRowToTransfer(result);
+           transfers.add(transfer);
+       }
+       return transfers;
     }
 
     private Transfer mapRowToTransfer(SqlRowSet result){
