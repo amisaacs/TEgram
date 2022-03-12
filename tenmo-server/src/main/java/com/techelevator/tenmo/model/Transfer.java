@@ -23,6 +23,8 @@ public class Transfer {
 //    @Positive (message = "Zero or negative amount not accepted.")
     @Min( value = 1)
     private BigDecimal amount;
+    public Transfer() {}
+
 
     public Transfer(long transferTypeId, long transferStatusId,
                     long accountFrom, long accountTo, BigDecimal amount) {
@@ -32,10 +34,6 @@ public class Transfer {
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.amount = amount;
-    }
-
-    public Transfer() {
-
     }
 
 
