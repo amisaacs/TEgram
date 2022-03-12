@@ -108,7 +108,7 @@ public class App {
 	private void sendBucks() {
 		// TODO Auto-generated method stub
         User[] users = tenmoService.getUsers(currentUser.getToken());
-        System.out.println(" -------------------------------------------\n" +
+        System.out.println("-------------------------------------------\n" +
                 "Users\n" +
                 "ID          Name\n" +
                 "-------------------------------------------\n");

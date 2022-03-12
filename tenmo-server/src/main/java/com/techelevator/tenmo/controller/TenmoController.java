@@ -3,6 +3,7 @@ package com.techelevator.tenmo.controller;
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.security.jwt.TokenProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.List;
 
 
 @RestController
@@ -43,5 +45,10 @@ public class TenmoController {
     @RequestMapping(value = "/transfer", method = RequestMethod.POST)
     public void makeTransfer (@Valid @RequestBody Transfer transfer, BigDecimal senderBalance){
         transferDao.makeTransfer(transfer, senderBalance);
+    }
+
+    @RequestMapping (value = "/listUsers", method = RequestMethod.GET)
+    public List<User> listUsers (Principal principal){
+        return userDao.findAll(principal);
     }
 }
