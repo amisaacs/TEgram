@@ -41,7 +41,7 @@ public class JdbcUserDao implements UserDao {
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()) {
             User user = mapRowToUser(results);
-            if (principal.getName() != user.getUsername()){
+            if (!principal.getName().equals(user.getUsername())){
                 users.add(user);
             }
 
