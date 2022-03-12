@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.util.BasicLogger;
@@ -47,10 +48,27 @@ public class TenmoService {
         }
         return users;
     }
-    // choose a user to send money to
-    // prompt for amount from sender
-    // create transfer object
+
     // create HTTP request to server to make transfer
+    public Transfer makeTransfer(Transfer transfer, BigDecimal transferAmount, String authToken){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(authToken);
+
+        Transfer returnedTransfer = null;
+        HttpEntity<Transfer> entity = new HttpEntity<>(transfer, headers);
+
+        try{
+         returnedTransfer = restTemplate.postForObject(baseUrl + "/transfer",entity,
+                 Transfer.class);
+
+
+        }catch (ResourceAccessException | RestClientResponseException e){
+
+            BasicLogger.log(e.getMessage());
+        }
+        return returnedTransfer;
+    }
 
 
 

@@ -1,11 +1,14 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TenmoService;
+
+import java.math.BigDecimal;
 
 public class App {
 
@@ -107,6 +110,17 @@ public class App {
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
+
+        //***START HERE****
+        /*
+        Why doesn't transfer go through?
+        (account class on server side isn't connected to db)
+
+        should it go back to the main menu?
+        needs to display whether transfer went through or not (transfer_status_id)
+        Review if we've complied with step 4 on the README
+        need to throw exceptions on server side.
+         */
         User[] users = tenmoService.getUsers(currentUser.getToken());
         System.out.println("-------------------------------------------\n" +
                 "Users\n" +
@@ -119,7 +133,14 @@ public class App {
         }
         System.out.println("--------- ");
 
+        Long recipientId = (long) consoleService.promptForInt("Enter ID of user you are " +
+                "sending to (0 to cancel):");
 
+        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter amount:");
+        Transfer transfer = new Transfer(2L,2L,currentUser.getUser().getId(), recipientId,
+                transferAmount);
+
+        tenmoService.makeTransfer( transfer,  transferAmount, currentUser.getToken());
 
 	}
 
