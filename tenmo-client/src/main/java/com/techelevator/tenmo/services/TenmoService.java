@@ -39,7 +39,7 @@ public class TenmoService {
         User[] users = null;
         try{
 //            HttpEntity<> entity = createCredentialsEntity(authToken);
-            ResponseEntity<User[]> response = restTemplate.exchange(baseUrl + "/user", HttpMethod.GET,
+            ResponseEntity<User[]> response = restTemplate.exchange(baseUrl + "/listUsers", HttpMethod.GET,
                     createCredentialsEntity(authToken), User[].class );
             users = response.getBody();
         }catch (ResourceAccessException | RestClientResponseException e){
