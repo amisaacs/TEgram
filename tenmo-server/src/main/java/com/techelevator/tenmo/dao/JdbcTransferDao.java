@@ -24,20 +24,20 @@ public class JdbcTransferDao implements TransferDao {
 // need to make sure it's auth user
 @Override
     public void makeTransfer (Transfer transfer, BigDecimal senderBalance){
-//        createTransfer(transfer);
-        long status = TRANSFER_STATUS_PENDING;
-        try{
-            if (updateAccount(transfer, senderBalance)){
-                status = TRANSFER_STATUS_APPROVED;
-            }else{
-                status = TRANSFER_STATUS_REJECTED;
-            }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }finally {
-            transfer.setTransferStatusId(status);
-            createTransfer(transfer);
-        }
+        createTransfer(transfer);
+//        long status = TRANSFER_STATUS_PENDING;
+//        try{
+//            if (updateAccount(transfer, senderBalance)){
+//                status = TRANSFER_STATUS_APPROVED;
+//            }else{
+//                status = TRANSFER_STATUS_REJECTED;
+//            }
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+//        }finally {
+//            transfer.setTransferStatusId(status);
+//            createTransfer(transfer);
+//        }
 
     }
 
