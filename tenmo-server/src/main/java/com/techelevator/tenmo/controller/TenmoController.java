@@ -42,18 +42,13 @@ public class TenmoController {
 
 
     // makeTransfer method
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @RequestMapping(value = "/transfer", method = RequestMethod.POST)
-//    public void makeTransfer ( @RequestBody Transfer transfer, BigDecimal senderBalance){
-//        transferDao.makeTransfer(transfer, senderBalance);
-//    }
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/transfer", method = RequestMethod.POST)
-    public void createTransfer(@RequestBody Transfer newTransfer){
-        transferDao.createTransfer(newTransfer);
-
+    public void makeTransfer (@Valid @RequestBody Transfer transfer, BigDecimal senderBalance){
+        transferDao.makeTransfer(transfer, senderBalance);
     }
+
+
 
     @RequestMapping (value = "/listUsers", method = RequestMethod.GET)
     public List<User> listUsers (Principal principal){
