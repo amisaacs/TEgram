@@ -8,6 +8,7 @@ import com.techelevator.tenmo.security.jwt.TokenProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,7 +44,7 @@ public class TenmoController {
     // makeTransfer method
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/transfer", method = RequestMethod.POST)
-    public void makeTransfer (@Valid @RequestBody Transfer transfer, BigDecimal senderBalance){
+    public void makeTransfer ( @RequestBody Transfer transfer, BigDecimal senderBalance){
         transferDao.makeTransfer(transfer, senderBalance);
     }
 

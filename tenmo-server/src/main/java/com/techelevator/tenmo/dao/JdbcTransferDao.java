@@ -24,6 +24,7 @@ public class JdbcTransferDao implements TransferDao {
 // need to make sure it's auth user
 @Override
     public void makeTransfer (Transfer transfer, BigDecimal senderBalance){
+//        createTransfer(transfer);
         long status = TRANSFER_STATUS_PENDING;
         try{
             if (updateAccount(transfer, senderBalance)){
@@ -37,11 +38,11 @@ public class JdbcTransferDao implements TransferDao {
             transfer.setTransferStatusId(status);
             createTransfer(transfer);
         }
+
     }
 
-
-
-    private boolean updateAccount(Transfer transfer, BigDecimal senderBalance) {
+    @Override
+    public boolean updateAccount(Transfer transfer, BigDecimal senderBalance) {
         boolean isSuccess = false;
         //        should be able to choose from a list of users to send TE Bucks to.
         String sql =  " UPDATE account SET balance = balance - ? " +
@@ -61,15 +62,15 @@ public class JdbcTransferDao implements TransferDao {
         return isSuccess;
     }
 
-
+@Override
     //insert a new transfer into the transfer table
-    private Transfer createTransfer(Transfer newTransfer){
+    public Transfer createTransfer(Transfer newTransfer){
         String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, " +
                 "account_to, amount) " +
-                "VALUES ( ?,?,?,?, ?) RETURNING transfer_id";
+                "VALUES ( ?,?,?,?,?) RETURNING transfer_id";
 
         Long newId = jdbcTemplate.queryForObject(sql, Long.class, newTransfer.getTransferTypeId()
-                , newTransfer.getAccountFrom(), newTransfer.getAccountTo(),
+                , newTransfer.getTransferStatusId(),newTransfer.getAccountFrom(), newTransfer.getAccountTo(),
                 newTransfer.getAmount());
 
         return getTransfer(newId);

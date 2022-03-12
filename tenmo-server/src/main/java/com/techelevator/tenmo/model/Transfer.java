@@ -1,26 +1,32 @@
 package com.techelevator.tenmo.model;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public class Transfer {
-    private Long id;
-    @NotBlank (message = "Transfer type cannot be blank.")
-    private Long transferTypeId;
-    @NotBlank (message = "Transfer status cannot be blank.")
-    private Long transferStatusId = 2L; // transfer status default is approved
-    @NotBlank (message = "Sender cannot be blank.")
-    private Long accountFrom;
-    @NotBlank (message = "Recipient cannot be blank.")
-    private Long accountTo;
-    @Positive (message = "Zero or negative amount not accepted.")
+    private long id;
+//    @NotNull(message = "Transfer type cannot be blank.")
+//    @Min( value = 1)
+    private long transferTypeId;
+//    @NotNull (message = "Transfer status cannot be blank.")
+
+    private long transferStatusId = 2L; // transfer status default is approved
+//    @NotNull (message = "Sender cannot be blank.")
+//    @Min( value = 1)
+    private long accountFrom;
+//    @NotNull (message = "Recipient cannot be blank.")
+//    @Min( value = 1)
+    private long accountTo;
+//    @Positive (message = "Zero or negative amount not accepted.")
+    @Min( value = 1)
     private BigDecimal amount;
 
-    public Transfer(Long id, Long transferTypeId, Long transferStatusId,
-                    Long accountFrom, Long accountTo, BigDecimal amount) {
+    public Transfer(long transferTypeId, long transferStatusId,
+                    long accountFrom, long accountTo, BigDecimal amount) {
 
-        this.id = id;
         this.transferTypeId = transferTypeId;
         this.transferStatusId = transferStatusId;
         this.accountFrom = accountFrom;
@@ -32,43 +38,45 @@ public class Transfer {
 
     }
 
-    public Long getId() {
+
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Long getTransferTypeId() {
+    public long getTransferTypeId() {
         return transferTypeId;
     }
 
-    public void setTransferTypeId(Long transferTypeId) {
+    public void setTransferTypeId(long transferTypeId) {
         this.transferTypeId = transferTypeId;
     }
 
-    public Long getTransferStatusId() {
+    public long getTransferStatusId() {
         return transferStatusId;
     }
 
-    public void setTransferStatusId(Long transferStatusId) {
+    public void setTransferStatusId(long transferStatusId) {
         this.transferStatusId = transferStatusId;
     }
 
-    public Long getAccountFrom() {
+    public long getAccountFrom() {
         return accountFrom;
     }
 
-    public void setAccountFrom(Long accountFrom) {
+    public void setAccountFrom(long accountFrom) {
         this.accountFrom = accountFrom;
     }
 
-    public Long getAccountTo() {
+    public long getAccountTo() {
         return accountTo;
     }
 
-    public void setAccountTo(Long accountTo) {
+    public void setAccountTo(long accountTo) {
         this.accountTo = accountTo;
     }
 
