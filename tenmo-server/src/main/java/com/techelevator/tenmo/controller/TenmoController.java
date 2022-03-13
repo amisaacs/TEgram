@@ -73,7 +73,9 @@ public class TenmoController {
     }
 
     @RequestMapping (value = "/account/{username}",method = RequestMethod.GET )
-    public Account getAccountId (Principal principal){
+    // put correct pathvariable in (), should be username not principal
+    public Account getAccountId (@PathVariable Principal principal){
+
         return userDao.getAccount(principal.getName());
     }
 

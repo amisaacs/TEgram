@@ -89,7 +89,7 @@ public class TenmoService {
     public Account getAccount(String username,String authToken ){
         Account account = null;
         try{
-            ResponseEntity<Account> response= restTemplate.exchange(baseUrl + "/account" + username, HttpMethod.GET,
+            ResponseEntity<Account> response= restTemplate.exchange(baseUrl + "/account/" + username, HttpMethod.GET,
                     createCredentialsEntity(authToken), Account.class);
 
             account = response.getBody();

@@ -98,6 +98,7 @@ public class App {
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
+        // when debugging, account was null, figure it out!
         Account account = tenmoService.getAccount(currentUser.getUser().getUsername(),currentUser.getToken() );
         System.out.println("-------------------------------------------\n" +
                 "Transfers\n" +
