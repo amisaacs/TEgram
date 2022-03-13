@@ -1,12 +1,10 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TenmoService;
+import jdk.swing.interop.SwingInterOpUtils;
 
 import java.math.BigDecimal;
 
@@ -100,7 +98,19 @@ public class App {
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
-		
+        Account account = tenmoService.getAccount(currentUser.getUser().getUsername(),currentUser.getToken() );
+        System.out.println("-------------------------------------------\n" +
+                "Transfers\n" +
+                "ID          From/To                 Amount\n" +
+                "-------------------------------------------\n");
+        Transfer[] transfers = tenmoService.listTransfersByUserId(currentUser.getUser().getId(), currentUser.getToken());
+		for (Transfer transfer: transfers){
+            if (account.getAccountId() == transfer.getAccountFrom()){
+                System.out.println(transfer.getId() + "          To: " + transfer.getAccountTo() + "          $ " + transfer.getAmount());
+            } else {
+                System.out.println(transfer.getId() + "          From: " + transfer.getAccountFrom() + "          $ " + transfer.getAmount());
+            }
+        }
 	}
 
 	private void viewPendingRequests() {

@@ -17,6 +17,9 @@ public class Account {
         this.balance = balance;
     }
 
+    public Account() {
+    }
+
     public long getAccountId() {
         return accountId;
     }

@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
@@ -70,6 +71,34 @@ public class TenmoService {
         return returnedTransfer;
     }
 
+    public Transfer[] listTransfersByUserId(long userId, String authToken){
+        Transfer[] transfers = null;
+        try{
+            ResponseEntity<Transfer[]> response = restTemplate.exchange(baseUrl + "/listTransfers", HttpMethod.GET,
+                    createCredentialsEntity(authToken), Transfer[].class );
+            transfers = response.getBody();
+
+        }catch (ResourceAccessException | RestClientResponseException e){
+
+            BasicLogger.log(e.getMessage());
+        }
+        return transfers;
+
+    }
+
+    public Account getAccount(String username,String authToken ){
+        Account account = null;
+        try{
+            ResponseEntity<Account> response= restTemplate.exchange(baseUrl + "/account" + username, HttpMethod.GET,
+                    createCredentialsEntity(authToken), Account.class);
+
+            account = response.getBody();
+        }catch(ResourceAccessException | RestClientResponseException e){
+
+            BasicLogger.log(e.getMessage());
+        }
+        return account;
+    }
 
 
     private HttpEntity createCredentialsEntity(String authToken) {

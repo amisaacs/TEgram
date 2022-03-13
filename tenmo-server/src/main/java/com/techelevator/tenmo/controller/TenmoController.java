@@ -2,6 +2,7 @@ package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.security.jwt.TokenProvider;
@@ -66,9 +67,15 @@ public class TenmoController {
 
     @RequestMapping (value="/listTransfers", method = RequestMethod.GET)
     public List<Transfer> getTransferByUserId(Principal principal){
-        User user = userDao.findByUsername(principal.getName());
-        long id = user.getId();
-        return transferDao.getTransferByUserId(id);
+        Account account = userDao.getAccount(principal.getName());
+//        long id = userDao.getAccountId(principal.getName());
+        return transferDao.getTransferByUserId(account.getUserId());
     }
+
+    @RequestMapping (value = "/account/{username}",method = RequestMethod.GET )
+    public Account getAccountId (Principal principal){
+        return userDao.getAccount(principal.getName());
+    }
+
 
 }
