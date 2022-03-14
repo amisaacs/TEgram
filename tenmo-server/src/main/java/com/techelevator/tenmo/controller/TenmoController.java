@@ -45,8 +45,8 @@ public class TenmoController {
     // makeTransfer method
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/transfer", method = RequestMethod.POST)
-    public void makeTransfer (@Valid @RequestBody Transfer transfer, BigDecimal senderBalance){
-        transferDao.makeTransfer(transfer, senderBalance);
+    public void makeTransfer (@Valid @RequestBody Transfer transfer, Principal principal){
+        transferDao.makeTransfer(transfer, userDao.getBalance(principal.getName()));
     }
 
 
@@ -69,7 +69,7 @@ public class TenmoController {
     public List<Transfer> getTransferByUserId(Principal principal){
         Account account = userDao.getAccount(principal.getName());
 //        long id = userDao.getAccountId(principal.getName());
-        return transferDao.getTransferByUserId(account.getUserId());
+        return transferDao.getTransferByUserId(account.getAccountId());
     }
 
     @RequestMapping (value = "/account/{username}",method = RequestMethod.GET )

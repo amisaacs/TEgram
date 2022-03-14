@@ -48,9 +48,9 @@ public class JdbcTransferDao implements TransferDao {
         boolean isSuccess = false;
         //        should be able to choose from a list of users to send TE Bucks to.
         String sql =  " UPDATE account SET balance = balance - ? " +
-                " WHERE user_id = ?" +
+                " WHERE account_id = ?;" +
                 " UPDATE account SET balance = balance + ? " +
-                " WHERE user_id = ? ";
+                " WHERE account_id = ?; ";
 
         // checking sender cannot transfer to themselves, transfer amount >0, transfer amount<= senderBalance
         if (transfer.getAccountFrom() != transfer.getAccountTo()
@@ -80,7 +80,8 @@ public class JdbcTransferDao implements TransferDao {
 
     public Transfer getTransfer(Long id){
         Transfer transfer = null;
-        String sql = "SELECT transfer_type_id , transfer_status_id, account_from, account_to, " +
+        String sql = "SELECT transfer_id, transfer_type_id , transfer_status_id, account_from, " +
+                "account_to, " +
                 "amount " +
                 " FROM transfer WHERE transfer_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);

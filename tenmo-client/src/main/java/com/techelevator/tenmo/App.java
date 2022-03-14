@@ -16,6 +16,7 @@ public class App {
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
 
     private AuthenticatedUser currentUser;
+    private Account account = null;
     private TenmoService tenmoService = new TenmoService(API_BASE_URL);
 
     public static void main(String[] args) {
@@ -99,15 +100,19 @@ public class App {
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
         // when debugging, account was null, figure it out!
-        Account account = tenmoService.getAccount(currentUser.getUser().getUsername(),currentUser.getToken() );
+        account = tenmoService.getAccount(currentUser.getUser().getUsername(),currentUser.getToken() );
         System.out.println("-------------------------------------------\n" +
                 "Transfers\n" +
                 "ID          From/To                 Amount\n" +
                 "-------------------------------------------\n");
-        Transfer[] transfers = tenmoService.listTransfersByUserId(currentUser.getUser().getId(), currentUser.getToken());
+        Transfer[] transfers = tenmoService.listTransfersByUserId(account.getAccountId(),
+                currentUser.getToken());
 		for (Transfer transfer: transfers){
             if (account.getAccountId() == transfer.getAccountFrom()){
-                System.out.println(transfer.getId() + "          To: " + transfer.getAccountTo() + "          $ " + transfer.getAmount());
+                //AMISAAC - get printf to work properly.
+                //System.out.printf("          To: %d          %d.2");
+                //System.out.println(transfer.getId() + "          To: " + transfer.getAccountTo
+                // () + "          $ " + transfer.getAmount());
             } else {
                 System.out.println(transfer.getId() + "          From: " + transfer.getAccountFrom() + "          $ " + transfer.getAmount());
             }
@@ -148,7 +153,33 @@ public class App {
                 "sending to (0 to cancel):");
 
         BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter amount:");
-        Transfer transfer = new Transfer(2L,2L,currentUser.getUser().getId(), recipientId,
+        //Transfer transfer = new Transfer(2L,2L,currentUser.getUser().getId(), recipientId,
+          //      transferAmount);
+
+        /*
+        current User's account will decrease
+        the recipient's accoutn will increase
+
+         */
+        //transferType 2 is Send, transferStatus 2 is approved
+        //Transfer's parameters are transgerType, transferStatus, sender's account id,
+        // recipient's account id, transfer amount
+        //ACTION - we need to get recipient's Account Id because we need it to create Transfer.
+
+        //Get Username from userId
+        String recipientName = "";
+        for(User user: users){
+            if (user.getId().equals(recipientId)){
+                recipientName = user.getUsername();
+            }
+        }
+
+        Account accountSender = tenmoService.getAccount(currentUser.getUser().getUsername(),
+                currentUser.getToken() );
+        Account accountRecipient = tenmoService.getAccount(recipientName,
+                currentUser.getToken() );
+        Transfer transfer = new Transfer(2L,2L, accountSender.getAccountId(),
+                accountRecipient.getAccountId(),
                 transferAmount);
 
         tenmoService.makeTransfer( transfer,  transferAmount, currentUser.getToken());

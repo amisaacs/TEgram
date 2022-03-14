@@ -11,14 +11,15 @@ public class Account {
     @DecimalMin("0")
     private BigDecimal balance = new BigDecimal(1000);
 
+    public Account() {}
+
     public Account(long accountId, long userId, BigDecimal balance) {
         this.accountId = accountId;
         this.userId = userId;
         this.balance = balance;
     }
 
-    public Account() {
-    }
+
 
     public long getAccountId() {
         return accountId;

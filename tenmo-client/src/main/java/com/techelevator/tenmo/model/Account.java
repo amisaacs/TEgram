@@ -7,6 +7,8 @@ public class Account {
     private long userId;
     private BigDecimal balance = new BigDecimal(1000);
 
+    public Account() {}
+
     public Account(long accountId, long userId, BigDecimal balance) {
         this.accountId = accountId;
         this.userId = userId;

@@ -71,6 +71,7 @@ public class TenmoService {
         return returnedTransfer;
     }
 
+    //This works!!!! Now have to print out names instead of account ids
     public Transfer[] listTransfersByUserId(long userId, String authToken){
         Transfer[] transfers = null;
         try{
