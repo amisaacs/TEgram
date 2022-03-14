@@ -20,4 +20,6 @@ public interface UserDao {
     BigDecimal getBalance(String userName);
 
     Account getAccount(String username);
+
+    User getUser(Long accountId);
 }

@@ -49,21 +49,10 @@ public class TenmoController {
         transferDao.makeTransfer(transfer, userDao.getBalance(principal.getName()));
     }
 
-
-
     @RequestMapping (value = "/listUsers", method = RequestMethod.GET)
     public List<User> listUsers (Principal principal){
         return userDao.findAll(principal);
     }
-
-    /*
-    //Yay!!!! This works!!!
-    @RequestMapping (value="/listTransfers", method = RequestMethod.GET)
-    public List<Transfer> getTransfers(){
-        return transferDao.getTransfers();
-    }
-
-     */
 
     @RequestMapping (value="/listTransfers", method = RequestMethod.GET)
     public List<Transfer> getTransferByUserId(Principal principal){
@@ -78,6 +67,9 @@ public class TenmoController {
 
         return userDao.getAccount(username);
     }
-
+    @RequestMapping (value = "/user/{accountId}", method = RequestMethod.GET)
+    public User getUser (@PathVariable Long accountId){
+        return userDao.getUser(accountId);
+    }
 
 }

@@ -98,9 +98,8 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
-        // when debugging, account was null, figure it out!
         account = tenmoService.getAccount(currentUser.getUser().getUsername(),currentUser.getToken() );
+        User[] users = tenmoService.getUsers(currentUser.getToken());
         System.out.println("-------------------------------------------\n" +
                 "Transfers\n" +
                 "ID          From/To                 Amount\n" +
@@ -111,10 +110,13 @@ public class App {
             if (account.getAccountId() == transfer.getAccountFrom()){
                 //AMISAAC - get printf to work properly.
                 //System.out.printf("          To: %d          %d.2");
-                //System.out.println(transfer.getId() + "          To: " + transfer.getAccountTo
-                // () + "          $ " + transfer.getAmount());
+                String userName = tenmoService.getUser(transfer.getAccountTo(), currentUser.getToken()).getUsername();
+                System.out.println(transfer.getId() + "          To: " +   userName
+                         + "          $ " + transfer.getAmount());
             } else {
-                System.out.println(transfer.getId() + "          From: " + transfer.getAccountFrom() + "          $ " + transfer.getAmount());
+                String userName = tenmoService.getUser(transfer.getAccountFrom(), currentUser.getToken()).getUsername();
+
+                System.out.println(transfer.getId() + "          From: " + userName + "          $ " + transfer.getAmount());
             }
         }
 	}
@@ -167,12 +169,7 @@ public class App {
         //ACTION - we need to get recipient's Account Id because we need it to create Transfer.
 
         //Get Username from userId
-        String recipientName = "";
-        for(User user: users){
-            if (user.getId().equals(recipientId)){
-                recipientName = user.getUsername();
-            }
-        }
+        String recipientName = getUserName(users, recipientId);
 
         Account accountSender = tenmoService.getAccount(currentUser.getUser().getUsername(),
                 currentUser.getToken() );
@@ -186,7 +183,17 @@ public class App {
 
 	}
 
-	private void requestBucks() {
+    private String getUserName(User[] users, Long userId) {
+        String userName = "";
+        for(User user: users){
+            if (user.getId().equals(userId)){
+                userName = user.getUsername();
+            }
+        }
+        return userName;
+    }
+
+    private void requestBucks() {
 		// TODO Auto-generated method stub
 		
 	}
