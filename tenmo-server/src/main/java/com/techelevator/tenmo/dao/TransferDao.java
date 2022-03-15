@@ -12,4 +12,6 @@ public interface TransferDao {
     List<Transfer> getTransferByUserId(long id);
 
     List<Transfer> getTransfers();
+
+    Transfer getTransfer(Long transferId);
 }

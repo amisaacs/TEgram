@@ -90,10 +90,7 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-		// TODO Auto-generated method stub
         // get token out of auth user and pass thru get balance
-
-//        System.out.printf("Your current account balance is: $%d", tenmoService.getBalance(currentUser.getToken()));
         System.out.println("Your current account balance is: $ " + tenmoService.getBalance(currentUser.getToken()));
 	}
 
@@ -112,13 +109,26 @@ public class App {
                 //System.out.printf("          To: %d          %d.2");
                 String userName = tenmoService.getUser(transfer.getAccountTo(), currentUser.getToken()).getUsername();
                 System.out.println(transfer.getId() + "          To: " +   userName
-                         + "          $ " + transfer.getAmount());
+                         + "            $ " + transfer.getAmount());
             } else {
                 String userName = tenmoService.getUser(transfer.getAccountFrom(), currentUser.getToken()).getUsername();
 
                 System.out.println(transfer.getId() + "          From: " + userName + "          $ " + transfer.getAmount());
             }
         }
+        // view one transfer detail
+        Long transferId = (long)consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
+        Transfer transfer = tenmoService.getTransfer(transferId,currentUser.getToken() );
+        System.out.println("");
+        System.out.println("--------------------------------------------\n" +
+                "Transfer Details\n" +
+                "--------------------------------------------\n");
+        System.out.println("Id: " + transfer.getId());
+        System.out.println("From: " + tenmoService.getUser(transfer.getAccountFrom(), currentUser.getToken()).getUsername());
+        System.out.println("To: " + tenmoService.getUser(transfer.getAccountTo(), currentUser.getToken()).getUsername());
+        System.out.println("Type: "+ transfer.getTransferTypeId());
+        System.out.println("Status: " + transfer.getTransferStatusId());
+        System.out.println("Amount: $" + transfer.getAmount());
 	}
 
 	private void viewPendingRequests() {
@@ -127,18 +137,6 @@ public class App {
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
-
-        //***START HERE****
-        /*
-        Why doesn't transfer go through?
-        (account class on server side isn't connected to db)
-
-        should it go back to the main menu?
-        needs to display whether transfer went through or not (transfer_status_id)
-        Review if we've complied with step 4 on the README
-        need to throw exceptions on server side.
-         */
         User[] users = tenmoService.getUsers(currentUser.getToken());
         System.out.println("-------------------------------------------\n" +
                 "Users\n" +
@@ -155,18 +153,6 @@ public class App {
                 "sending to (0 to cancel):");
 
         BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter amount:");
-        //Transfer transfer = new Transfer(2L,2L,currentUser.getUser().getId(), recipientId,
-          //      transferAmount);
-
-        /*
-        current User's account will decrease
-        the recipient's accoutn will increase
-
-         */
-        //transferType 2 is Send, transferStatus 2 is approved
-        //Transfer's parameters are transgerType, transferStatus, sender's account id,
-        // recipient's account id, transfer amount
-        //ACTION - we need to get recipient's Account Id because we need it to create Transfer.
 
         //Get Username from userId
         String recipientName = getUserName(users, recipientId);

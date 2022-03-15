@@ -63,15 +63,13 @@ public class TenmoService {
             returnedTransfer = restTemplate.postForObject(baseUrl + "/transfer", entity,
                     Transfer.class);
 
-
         } catch (ResourceAccessException | RestClientResponseException e) {
-
             BasicLogger.log(e.getMessage());
         }
         return returnedTransfer;
     }
 
-    //This works!!!! Now have to print out names instead of account ids
+
     public Transfer[] listTransfersByUserId(long userId, String authToken) {
         Transfer[] transfers = null;
         try {
@@ -115,6 +113,18 @@ public class TenmoService {
         return user;
     }
 
+    public Transfer getTransfer(Long transferId, String authToken) {
+        Transfer transfer = null;
+        try{
+            ResponseEntity<Transfer> response = restTemplate.exchange(baseUrl + "/transfer/" + transferId, HttpMethod.GET,
+                    createCredentialsEntity(authToken), Transfer.class);
+            transfer = response.getBody();
+
+        }catch (ResourceAccessException | RestClientResponseException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfer;
+    }
 
 
     private HttpEntity createCredentialsEntity(String authToken) {

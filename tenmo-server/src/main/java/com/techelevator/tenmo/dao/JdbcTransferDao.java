@@ -78,19 +78,22 @@ public class JdbcTransferDao implements TransferDao {
         return getTransfer(newId);
     }
 
-    public Transfer getTransfer(Long id){
+    @Override
+    public Transfer getTransfer(Long transferId){
         Transfer transfer = null;
         String sql = "SELECT transfer_id, transfer_type_id , transfer_status_id, account_from, " +
                 "account_to, " +
                 "amount " +
                 " FROM transfer WHERE transfer_id = ?";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, id);
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, transferId);
 
         if( result.next()){
             transfer = mapRowToTransfer(result);
         }
         return transfer;
     }
+
+
     @Override
     public List<Transfer> getTransfers(){
         List<Transfer> transfers = new ArrayList<>();
@@ -122,6 +125,7 @@ public class JdbcTransferDao implements TransferDao {
        }
        return transfers;
     }
+
 
     private Transfer mapRowToTransfer(SqlRowSet result){
         Transfer transfer = new Transfer();
