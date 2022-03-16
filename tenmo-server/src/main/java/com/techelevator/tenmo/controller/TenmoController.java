@@ -35,7 +35,7 @@ public class TenmoController {
         this.userDao = userDao;
         this.transferDao = transferDao;
     }
-
+// ---------- comment from Greg : value = "/account/balance"
     @RequestMapping(value = "/balance", method = RequestMethod.GET )
     public BigDecimal getBalance(Principal user){
         return userDao.getBalance(user.getName());
