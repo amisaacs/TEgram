@@ -1,7 +1,9 @@
 package com.techelevator.tenmo.model;
 
 import java.math.BigDecimal;
-
+/*
+Model of Transfer that will come back from the RESTful api (our server in this case)
+ */
 public class Transfer {
     private Long id;
     private Long transferTypeId;

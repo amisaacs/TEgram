@@ -7,6 +7,9 @@ import com.techelevator.tenmo.services.TenmoService;
 import jdk.swing.interop.SwingInterOpUtils;
 
 import java.math.BigDecimal;
+/*
+TODO:   Decide exactly what this should handle. Possible refactor some of it out.
+ */
 
 public class App {
 
@@ -36,6 +39,7 @@ public class App {
         while (menuSelection != 0 && currentUser == null) {
             consoleService.printLoginMenu();
             menuSelection = consoleService.promptForMenuSelection("Please choose an option: ");
+            //TODO refactor this to a case statement so it's easier to read
             if (menuSelection == 1) {
                 handleRegister();
             } else if (menuSelection == 2) {

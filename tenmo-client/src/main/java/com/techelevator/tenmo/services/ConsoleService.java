@@ -5,7 +5,10 @@ import com.techelevator.tenmo.model.UserCredentials;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
-
+/*
+This code was given by Tech Elevator as our front end.
+This is basically our UI/CLI (Command Line Interface)
+ */
 public class ConsoleService {
 
     private final Scanner scanner = new Scanner(System.in);

@@ -1,5 +1,7 @@
 package com.techelevator.tenmo.model;
-
+/*
+Model of User that will come back from the RESTful api (our server in this case)
+ */
 public class User {
 
     private Long id;

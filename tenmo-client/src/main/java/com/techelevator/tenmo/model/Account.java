@@ -1,7 +1,9 @@
 package com.techelevator.tenmo.model;
 
 import java.math.BigDecimal;
-
+/*
+Model of Account that will come back from the RESTful api (our server in this case)
+ */
 public class Account {
     private long accountId;
     private long userId;

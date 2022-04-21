@@ -6,6 +6,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
+//TODO: we commented out all these because something wasn't working. I don't remember what now.
+//      need to go back in and uncomment them and make sure they work.
 public class Transfer {
     private long id;
 //    @NotNull(message = "Transfer type cannot be blank.")
