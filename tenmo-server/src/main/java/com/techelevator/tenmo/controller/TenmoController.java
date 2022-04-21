@@ -35,7 +35,7 @@ public class TenmoController {
         this.userDao = userDao;
         this.transferDao = transferDao;
     }
-
+// ---------- comment from Greg : value = "/account/balance"
     @RequestMapping(value = "/balance", method = RequestMethod.GET )
     public BigDecimal getBalance(Principal user){
         return userDao.getBalance(user.getName());
@@ -49,35 +49,31 @@ public class TenmoController {
         transferDao.makeTransfer(transfer, userDao.getBalance(principal.getName()));
     }
 
-
-
     @RequestMapping (value = "/listUsers", method = RequestMethod.GET)
     public List<User> listUsers (Principal principal){
         return userDao.findAll(principal);
     }
 
-    /*
-    //Yay!!!! This works!!!
-    @RequestMapping (value="/listTransfers", method = RequestMethod.GET)
-    public List<Transfer> getTransfers(){
-        return transferDao.getTransfers();
-    }
-
-     */
-
     @RequestMapping (value="/listTransfers", method = RequestMethod.GET)
     public List<Transfer> getTransferByUserId(Principal principal){
         Account account = userDao.getAccount(principal.getName());
-//        long id = userDao.getAccountId(principal.getName());
         return transferDao.getTransferByUserId(account.getAccountId());
     }
 
     @RequestMapping (value = "/account/{username}",method = RequestMethod.GET )
     // put correct pathvariable in (), should be username not principal
     public Account getAccount (@PathVariable String username){
-
         return userDao.getAccount(username);
     }
 
+    @RequestMapping (value = "/user/{accountId}", method = RequestMethod.GET)
+    public User getUser (@PathVariable Long accountId){
+        return userDao.getUser(accountId);
+    }
+
+    @RequestMapping (value = "/transfer/{transferId}", method = RequestMethod.GET)
+    public Transfer getTransfer(@PathVariable Long transferId) {
+        return transferDao.getTransfer(transferId);
+    }
 
 }

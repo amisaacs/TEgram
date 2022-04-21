@@ -75,6 +75,18 @@ public class JdbcUserDao implements UserDao {
         }
             return account;
     }
+    @Override
+    public User getUser(Long accountId) {
+        User user = null;
+        String sql = "SELECT tenmo_user.user_id, username, password_hash FROM tenmo_user" +
+                " JOIN account ON account.user_id = tenmo_user.user_id" +
+                " WHERE account_id = ?";
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, accountId);
+        if (rowSet.next()) {
+            user = mapRowToUser(rowSet);
+        }
+        return user;
+    }
 
 
 

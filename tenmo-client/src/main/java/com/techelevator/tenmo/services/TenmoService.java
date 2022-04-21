@@ -19,17 +19,17 @@ public class TenmoService {
     private final String baseUrl;
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public TenmoService(String url){
+    public TenmoService(String url) {
         this.baseUrl = url;
     }
 
-    public BigDecimal getBalance(String authToken){
+    public BigDecimal getBalance(String authToken) {
         BigDecimal balance = null;
         try {
             ResponseEntity<BigDecimal> response = restTemplate.exchange(baseUrl + "/balance", HttpMethod.GET,
                     createCredentialsEntity(authToken), BigDecimal.class);
-        balance = response.getBody();
-        } catch (ResourceAccessException | RestClientResponseException e){
+            balance = response.getBody();
+        } catch (ResourceAccessException | RestClientResponseException e) {
             BasicLogger.log(e.getMessage());
         }
 
@@ -37,21 +37,21 @@ public class TenmoService {
     }
 
     // list users without current user
-    public User[] getUsers(String authToken){
+    public User[] getUsers(String authToken) {
         User[] users = null;
-        try{
+        try {
 //            HttpEntity<> entity = createCredentialsEntity(authToken);
             ResponseEntity<User[]> response = restTemplate.exchange(baseUrl + "/listUsers", HttpMethod.GET,
-                    createCredentialsEntity(authToken), User[].class );
+                    createCredentialsEntity(authToken), User[].class);
             users = response.getBody();
-        }catch (ResourceAccessException | RestClientResponseException e){
+        } catch (ResourceAccessException | RestClientResponseException e) {
             BasicLogger.log(e.getMessage());
         }
         return users;
     }
 
     // create HTTP request to server to make transfer
-    public Transfer makeTransfer(Transfer transfer, BigDecimal transferAmount, String authToken){
+    public Transfer makeTransfer(Transfer transfer, BigDecimal transferAmount, String authToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(authToken);
@@ -59,27 +59,25 @@ public class TenmoService {
         Transfer returnedTransfer = null;
         HttpEntity<Transfer> entity = new HttpEntity<>(transfer, headers);
 
-        try{
-         returnedTransfer = restTemplate.postForObject(baseUrl + "/transfer",entity,
-                 Transfer.class);
+        try {
+            returnedTransfer = restTemplate.postForObject(baseUrl + "/transfer", entity,
+                    Transfer.class);
 
-
-        }catch (ResourceAccessException | RestClientResponseException e){
-
+        } catch (ResourceAccessException | RestClientResponseException e) {
             BasicLogger.log(e.getMessage());
         }
         return returnedTransfer;
     }
 
-    //This works!!!! Now have to print out names instead of account ids
-    public Transfer[] listTransfersByUserId(long userId, String authToken){
+
+    public Transfer[] listTransfersByUserId(long userId, String authToken) {
         Transfer[] transfers = null;
-        try{
+        try {
             ResponseEntity<Transfer[]> response = restTemplate.exchange(baseUrl + "/listTransfers", HttpMethod.GET,
-                    createCredentialsEntity(authToken), Transfer[].class );
+                    createCredentialsEntity(authToken), Transfer[].class);
             transfers = response.getBody();
 
-        }catch (ResourceAccessException | RestClientResponseException e){
+        } catch (ResourceAccessException | RestClientResponseException e) {
 
             BasicLogger.log(e.getMessage());
         }
@@ -87,18 +85,45 @@ public class TenmoService {
 
     }
 
-    public Account getAccount(String username,String authToken ){
+    public Account getAccount(String username, String authToken) {
         Account account = null;
-        try{
-            ResponseEntity<Account> response= restTemplate.exchange(baseUrl + "/account/" + username, HttpMethod.GET,
+        try {
+            ResponseEntity<Account> response = restTemplate.exchange(baseUrl + "/account/" + username, HttpMethod.GET,
                     createCredentialsEntity(authToken), Account.class);
 
             account = response.getBody();
-        }catch(ResourceAccessException | RestClientResponseException e){
+        } catch (ResourceAccessException | RestClientResponseException e) {
 
             BasicLogger.log(e.getMessage());
         }
         return account;
+    }
+
+    public User getUser(Long accountId, String authToken) {
+        User user = null;
+        try{
+            ResponseEntity<User> response = restTemplate.exchange(baseUrl + "/user/" + accountId, HttpMethod.GET,
+                    createCredentialsEntity(authToken), User.class);
+
+            user = response.getBody();
+        } catch (ResourceAccessException | RestClientResponseException e) {
+
+            BasicLogger.log(e.getMessage());
+        }
+        return user;
+    }
+
+    public Transfer getTransfer(Long transferId, String authToken) {
+        Transfer transfer = null;
+        try{
+            ResponseEntity<Transfer> response = restTemplate.exchange(baseUrl + "/transfer/" + transferId, HttpMethod.GET,
+                    createCredentialsEntity(authToken), Transfer.class);
+            transfer = response.getBody();
+
+        }catch (ResourceAccessException | RestClientResponseException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return transfer;
     }
 
 
